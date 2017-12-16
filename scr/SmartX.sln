@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2009
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartX", "SmartX\SmartX.csproj", "{EF37AC3C-4226-4DCF-92F8-FBFA1EC7A3B3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartX.Autofac", "SmartX.Autofac\SmartX.Autofac.csproj", "{54D0ABB9-E93D-43D4-804E-96D39B4F0BF4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EF37AC3C-4226-4DCF-92F8-FBFA1EC7A3B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF37AC3C-4226-4DCF-92F8-FBFA1EC7A3B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF37AC3C-4226-4DCF-92F8-FBFA1EC7A3B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF37AC3C-4226-4DCF-92F8-FBFA1EC7A3B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54D0ABB9-E93D-43D4-804E-96D39B4F0BF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54D0ABB9-E93D-43D4-804E-96D39B4F0BF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54D0ABB9-E93D-43D4-804E-96D39B4F0BF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54D0ABB9-E93D-43D4-804E-96D39B4F0BF4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6F2EC9CA-2C85-4FA6-8E4D-249377E734E8}
+	EndGlobalSection
+EndGlobal
