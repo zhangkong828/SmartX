@@ -23,7 +23,8 @@ namespace SmartXCore.Module
             {
                 UseCookies = true,
                 CookieContainer = _cookies,
-                AllowAutoRedirect = true
+                AllowAutoRedirect = true,
+                
             };
             _httpClient = new HttpClient(_httpClientHandler);
             _httpClient.DefaultRequestHeaders.Add("User-Agent", ApiUrls.UserAgent);

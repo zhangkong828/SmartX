@@ -1,11 +1,15 @@
-﻿using SmartXCore;
+﻿using Gma.QrCodeNet.Encoding;
+using Gma.QrCodeNet.Encoding.Windows.Render;
+using SmartXCore;
 using SmartXCore.Event;
 using SmartXCore.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,7 +19,8 @@ namespace SimpleConsoleClient
     {
         static void Main(string[] args)
         {
-            new WebWeChatClient(listener).Start();
+            WebWeChatClient.Build(listener)
+                            .Start();
 
             Console.ReadKey();
         }
@@ -33,11 +38,47 @@ namespace SimpleConsoleClient
                 case NotifyEventType.QRCodeReady:
                     {
                         var bytes = notifyEvent.Target as byte[];
+
+                        //var qrEncode = new QrEncoder(ErrorCorrectionLevel.H);
+                        //var qrCode = qrEncode.Encode("http://www.baidu.com");
+                        //BitMatrix matrix = qrCode.Matrix;
+                        //GraphicsRenderer gRender = new GraphicsRenderer(new FixedModuleSize(6, QuietZoneModules.Two));
+                        //var stream = new MemoryStream();
+                        //gRender.WriteToStream(matrix, ImageFormat.Png, stream);
+                        ////获取图像
+                        //var image = new Bitmap(Image.FromStream(stream));
+
+                        //ConsoleWriteImage(image);
+
+
+                        //var bitmap = QrCodeHelper.Encode("http://www.baidu.com");
+                        //ConsoleWriteImage(bitmap);
+
                         using (var ms = new MemoryStream(bytes))
                         {
-                            ConsoleWriteImage(new Bitmap(Image.FromStream(ms)));
+                            //获取图像
+                            var image = new Bitmap(Image.FromStream(ms));
+                            var a = QrCodeHelper.Decode(image);
+                            Console.WriteLine(a);
+
                         }
-                        Console.WriteLine("请扫描二维码登录");
+
+                        //using (var ms = new MemoryStream(bytes))
+                        //{
+                        //    //获取图像
+                        //    var image = new Bitmap(Image.FromStream(ms));
+                        //    //灰度化
+                        //    //image = ToGray(image);
+                        //    //反转
+                        //    //image = GrayReverse(image);
+                        //    //image = GrayReverse(image);
+                        //    //二值化
+                        //    //image = ConvertTo1Bpp1(image);
+                        //    //打印
+                        //    ConsoleWriteImage(image);
+
+                        //}
+                        Console.WriteLine("二维码已打印在屏幕，请使用手机QQ扫描。");
                         break;
                     }
 
@@ -70,7 +111,7 @@ namespace SimpleConsoleClient
         /// <summary>
         /// 打印二维码
         /// </summary>
-         static void ConsoleWriteImage(Bitmap bmp)
+        static void ConsoleWriteImage(Bitmap bmp)
         {
             int w = bmp.Width;
             int h = bmp.Height;
@@ -220,5 +261,9 @@ namespace SimpleConsoleClient
             else return false;
 
         }
+
+
+
+
     }
 }

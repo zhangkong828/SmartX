@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace SmartXCore.Event
 {
-    public delegate Task NotifyEventListener(IClient sender, NotifyEvent e);
+    public delegate Task NotifyEventListener(IContext sender, NotifyEvent e);
 }

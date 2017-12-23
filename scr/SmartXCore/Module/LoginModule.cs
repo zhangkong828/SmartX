@@ -38,6 +38,7 @@ namespace SmartXCore.Module
                 _session.Uuid = match.Groups[2].Value;
                 return true;
             }
+            _context.FireNotifyAsync(NotifyEvent.CreateEvent(NotifyEventType.Error, "获取UUID失败"));
             return false;
         }
 
@@ -46,15 +47,23 @@ namespace SmartXCore.Module
         /// </summary>
         public void GetQRCode()
         {
-            var url = ApiUrls.GetQRCode;
+            var url = string.Format(ApiUrls.GetQRCode, _session.Uuid);
             var param = new Dictionary<string, object>()
             {
                 { "t","webwx"},
                 { "_",_session.Seq++}
             };
             var response = _httpClient.PostAsync(url, param.ToQueryString()).Result;
+            var bytes = response.RawByteArray();
+            if (bytes != null)
+            {
+                _context.FireNotifyAsync(NotifyEvent.CreateEvent(NotifyEventType.QRCodeReady, bytes));
+            }
+            else
+            {
+                _context.FireNotifyAsync(NotifyEvent.CreateEvent(NotifyEventType.Error, "获取二维码失败"));
+            }
 
-            _context.FireNotifyAsync(NotifyEvent.CreateEvent(NotifyEventType.QRCodeReady, response));
         }
 
         public bool Login()

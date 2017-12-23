@@ -20,7 +20,6 @@ namespace SmartXCore.Extensions
             {
                 client.DefaultRequestHeaders.Referrer = new Uri(referer);
             }
-            client.Timeout = new TimeSpan(0, 0, timeout);
             var response = client.GetAsync(url);
             response.Wait();
             // 恢复原来的referer
@@ -38,7 +37,6 @@ namespace SmartXCore.Extensions
             {
                 client.DefaultRequestHeaders.Referrer = new Uri(referer);
             }
-            client.Timeout = new TimeSpan(0, 0, timeout);
             var response = client.GetStringAsync(url);
             response.Wait();
             // 恢复原来的referer
@@ -56,7 +54,6 @@ namespace SmartXCore.Extensions
             {
                 client.DefaultRequestHeaders.Referrer = new Uri(referer);
             }
-            client.Timeout = new TimeSpan(0, 0, timeout);
             var response = client.GetStreamAsync(url);
             response.Wait();
             // 恢复原来的referer
@@ -95,8 +92,7 @@ namespace SmartXCore.Extensions
                 {
                     client.DefaultRequestHeaders.Add("Origin", origin);
                 }
-
-                client.Timeout = new TimeSpan(0, 0, timeout);
+                
 
                 HttpContent content = new StringContent(postData, Encoding.UTF8);
                 content.Headers.ContentType = MediaTypeHeaderValue.Parse("application/ x-www-form-urlencoded; charset=UTF-8");
@@ -120,7 +116,7 @@ namespace SmartXCore.Extensions
                 return await response;
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return null;
             }

@@ -12,7 +12,7 @@ using Autofac.Core;
 
 namespace SmartXCore
 {
-    public class WebWeChatClient : IClient
+    public class WebWeChatClient : IContext
     {
         private readonly ContainerBuilder _builder;
         private IContainer _container;
@@ -20,29 +20,35 @@ namespace SmartXCore
         private readonly NotifyEventListener _notifyListener;
         private readonly ILogger _logger;
 
+        public static WebWeChatClient Build(NotifyEventListener notifyListener)
+        {
+            return new WebWeChatClient(notifyListener);
+        }
 
         public WebWeChatClient(NotifyEventListener notifyListener)
             : this()
         {
-            _notifyListener = notifyListener;
+            //注册上下文
+            _builder.RegisterType<WebWeChatClient>().As<IContext>().SingleInstance();
+            //注册日志
+            _builder.RegisterType<Log4NetLogger>().As<ILogger>().SingleInstance();
+            //注册模块
+            _builder.RegisterType<SessionModule>().SingleInstance();
+            _builder.RegisterType<LoginModule>().As<ILoginModule>().SingleInstance();
+            //注册事件
+            _builder.RegisterInstance(notifyListener);
 
+            _container = _builder.Build();
+
+            _logger = _container.Resolve<ILogger>();
+
+            _notifyListener = _container.Resolve<NotifyEventListener>();
         }
 
         private WebWeChatClient()
         {
             _builder = new ContainerBuilder();
 
-            _builder.RegisterType<IContext>().SingleInstance();
-            //注册日志
-            _builder.RegisterType<Log4NetLogger>().As<ILogger>().SingleInstance();
-
-            // 注册模块
-            _builder.RegisterType<SessionModule>().SingleInstance();
-            _builder.RegisterType<LoginModule>().As<ILoginModule>().SingleInstance();
-
-            _container = _builder.Build();
-
-            _logger = _container.Resolve<ILogger>();
         }
 
         public ILogger Logger => _logger;
