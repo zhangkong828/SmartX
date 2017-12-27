@@ -11,12 +11,8 @@ using SmartXCore.Event;
 
 namespace SmartXCore.Module
 {
-    public abstract class BaseModule : IBaseModule
+    public class BaseModule : IBaseModule
     {
-        public BaseModule()
-        {
-
-        }
 
         public BaseModule(IContext context)
         {
@@ -24,16 +20,16 @@ namespace SmartXCore.Module
 
         }
 
-        protected readonly IContext _context;
+        public readonly IContext _context;
 
-        protected ILogger _logger => _context.Logger;
+        public ILogger _logger => _context.Logger;
 
-        protected SessionModule _session => _context.GetModule<SessionModule>();
-        protected StoreModule _store => _context.GetModule<StoreModule>();
+        public SessionModule _session => _context.GetModule<SessionModule>();
+        public StoreModule _store => _context.GetModule<StoreModule>();
 
-        protected long _timestamp => DateTime.Now.ToTimestampMilli();
+        public long _timestamp => DateTime.Now.ToTimestampMilli();
 
-        protected HttpClient _httpClient => _session._httpClient;
+        public HttpClient _httpClient => _session._httpClient;
 
 
     }

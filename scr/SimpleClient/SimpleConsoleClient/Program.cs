@@ -8,6 +8,7 @@ using System;
 using System.Drawing;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Linq;
 
 namespace SimpleConsoleClient
 {
@@ -29,7 +30,6 @@ namespace SimpleConsoleClient
                 case NotifyEventType.QRCodeReady:
                     {
                         var bytes = notifyEvent.Target as byte[];
-                        //打印二维码 
                         //直接打印 有点问题
                         using (var ms = new MemoryStream(bytes))
                         {
@@ -43,28 +43,28 @@ namespace SimpleConsoleClient
                             //打印
                             QrCodeHelper.ConsoleWriteImage(image);
                         }
-                        ColorConsole(ConsoleColor.DarkBlue, "请使用手机微信扫描二维码");
+                        ColorConsole(ConsoleColor.Gray, "请使用手机微信扫描二维码");
                         break;
                     }
 
                 case NotifyEventType.QRCodeScanCode:
-                    ColorConsole(ConsoleColor.DarkBlue, "已扫描，请点击确认登录");
+                    ColorConsole(ConsoleColor.Gray, "已扫描，等待登录...");
                     break;
 
                 case NotifyEventType.QRCodeSuccess:
-                    ColorConsole(ConsoleColor.DarkBlue, "确认登录");
-                    ColorConsole(ConsoleColor.DarkBlue, "开始获取联系人...");
+                    ColorConsole(ConsoleColor.Gray, "已确认登录");
+                    ColorConsole(ConsoleColor.Gray, "开始获取联系人...");
                     break;
 
                 case NotifyEventType.QRCodeInvalid:
-                    ColorConsole(ConsoleColor.DarkBlue, "二维码已失效");
+                    ColorConsole(ConsoleColor.Red, "二维码已失效");
                     break;
 
                 case NotifyEventType.LoginSuccess:
-                    ColorConsole(ConsoleColor.DarkBlue, "登录成功");
+                    ColorConsole(ConsoleColor.Gray, "登录成功");
                     var store = client.GetModule<StoreModule>();
-                    ColorConsole(ConsoleColor.DarkBlue, $"应有{store.MemberCount}个联系人，读取到联系人{store.ContactMemberDic.Count}个");
-                    ColorConsole(ConsoleColor.DarkBlue, $"共有{store.GroupCount}个群|{store.FriendCount}个好友|{store.SpecialUserCount}个微信官方账号|{store.PublicUserCount}公众号或服务号");
+                    ColorConsole(ConsoleColor.Gray, $"获取好友列表成功，共{store.FriendCount}个");
+                    ColorConsole(ConsoleColor.Gray, $"获取公众号|服务号列表成功，共{store.PublicUserCount}个");
                     break;
 
                 case NotifyEventType.Message:
@@ -76,12 +76,12 @@ namespace SimpleConsoleClient
                     }
 
                 case NotifyEventType.Offline:
-                    ColorConsole(ConsoleColor.DarkBlue, "微信已离线");
+                    ColorConsole(ConsoleColor.Red, "微信已离线");
                     break;
 
                 case NotifyEventType.Error:
                     var error = notifyEvent.Target as string;
-                    ColorConsole(ConsoleColor.Yellow, error);
+                    ColorConsole(ConsoleColor.Red, error);
                     break;
 
                 default:
@@ -96,45 +96,52 @@ namespace SimpleConsoleClient
         /// </summary>
         static void MessageHandle(IContext client, Message msg)
         {
-            var store = client.GetModule<StoreModule>();
-            var contactMember = store.ContactMemberDic;
-            var userName = client.GetModule<SessionModule>().User.UserName;
+            var mySelf = client.GetModule<SessionModule>().User.UserName;
+            if (msg.FromUserName == mySelf)
+                return;//不处理自己发的消息
+            var groupName = string.Empty;
+            var fromName = string.Empty;
+            var content = string.Empty;
+            if (msg.IsGroup() && msg.MsgType != MessageType.System)
+            {
+                //群消息，获取群成员信息
+                var match = Regex.Match(msg.Content, "(.+?):<br\\/>(.*)");
+                fromName = match.Groups[1].Value;
+                content = match.Groups[2].Value;
+                var contactMember = client.GetModule<StoreModule>().ContactMemberDic;
+                var groupId = msg.FromUserName;
+                if (contactMember.ContainsKey(groupId))
+                {
+                    groupName = contactMember[groupId].ShowName;
+                    fromName = contactMember[groupId].MemberList.FirstOrDefault(x => x.UserName == fromName)?.ShowName;
+                }
+                else
+                {
+                    if (client.GetModule<IContactModule>().GetGroupMember(groupId))
+                    {
+                        groupName = contactMember[groupId].ShowName;
+                        fromName = contactMember[groupId].MemberList.FirstOrDefault(x => x.UserName == fromName)?.ShowName;
+                    }
+                    else
+                        groupName = "群消息";
+                }
+            }
+            else
+            {
+                fromName = msg.FromUser?.ShowName;
+                content = msg.Content;
+            }
+            if (msg.MsgType != MessageType.Text && msg.MsgType != MessageType.System)
+                content = "发送了" + msg.MsgType.GetDescription();
+            var message = string.Format("{0}:{1}", fromName, content);
+            if (!groupName.IsNullOrEmpty())
+                message = string.Format("[{0}]{1}", groupName, message);
             //文字消息
-            if (msg.FromUserName != userName && msg.MsgType == MessageType.Text && !msg.Content.IsNullOrEmpty())
-            {
-                //是否是群消息
-                var isGroup = msg.FromUserName.StartsWith("@@");
-                var fromName = string.Empty;
-                var content = string.Empty;
-                if (isGroup)
-                {
-                    var regex = new Regex("@.+?<br/>(.*)");
-                    var match = regex.Match(msg.Content);
-                    fromName = "群消息";
-                    content = match.Groups[1].Value;
+            if (msg.MsgType == MessageType.Text)
+                ColorConsole(ConsoleColor.DarkGreen, message);
+            else
+                ColorConsole(ConsoleColor.DarkYellow, message);
 
-                }
-                else
-                {
-                    fromName = msg.FromUser?.ShowName;
-                    content = msg.Content;
-                }
-                var message = string.Format("[{0}]:{1}", fromName, content);
-
-                ColorConsole(ConsoleColor.Green, message);
-            }
-            //系统消息
-            else if (msg.MsgType == MessageType.System)
-            {
-                if (msg.Content.Contains("红包"))
-                {
-                    ColorConsole(ConsoleColor.Red, "【收到红包】");
-                }
-                else
-                {
-                    ColorConsole(ConsoleColor.Red, msg.Content);
-                }
-            }
         }
 
 
@@ -145,7 +152,7 @@ namespace SimpleConsoleClient
         {
             var preForegroundColor = Console.ForegroundColor;
             Console.ForegroundColor = color;
-            Console.WriteLine(str, arg);
+            Console.WriteLine(DateTime.Now.ToString("HH:mm:ss") + "> " + str, arg);
             Console.ForegroundColor = preForegroundColor;
         }
 

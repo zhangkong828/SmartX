@@ -52,6 +52,6 @@ namespace SmartXCore.Model
 
         public string KeyWord { get; set; }
 
-        public virtual string ShowName => DisplayName.IsNullOrEmpty() ? (NickName.IsNullOrEmpty() ? UserName : DisplayName) : NickName;
+        public virtual string ShowName => DisplayName.IsNullOrEmpty() ? (NickName.IsNullOrEmpty() ? UserName : NickName) : DisplayName;
     }
 }

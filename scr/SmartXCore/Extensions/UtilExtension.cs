@@ -33,5 +33,11 @@ namespace SmartXCore.Extensions
             return member.UserName.StartsWith("@@");
         }
 
+        public static bool IsGroup(this Message message)
+        {
+            return message.FromUserName.StartsWith("@@");
+        }
+
+
     }
 }

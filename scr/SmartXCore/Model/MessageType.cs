@@ -60,9 +60,9 @@ namespace SmartXCore.Model
         Link = 49,
 
         /// <summary>
-        /// 微信初始化消息
+        /// 微信初始化
         /// </summary>
-        [Description("微信初始化消息")]
+        [Description("微信初始化")]
         WxInit = 51,
 
         /// <summary>

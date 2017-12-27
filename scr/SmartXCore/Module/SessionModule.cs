@@ -15,7 +15,6 @@ namespace SmartXCore.Module
     {
         private readonly IDictionary<string, string> _request = new Dictionary<string, string>();
         private readonly Random _random = new Random();
-
         public SessionModule()
         {
             _cookies = new CookieContainer();

@@ -11,9 +11,11 @@ using SmartXCore.Model;
 using System.Threading;
 using System.Xml.Linq;
 using Newtonsoft.Json.Linq;
+using System.ComponentModel;
 
 namespace SmartXCore.Module
 {
+    [Description("登录模块")]
     public class LoginModule : BaseModule, ILoginModule
     {
         public LoginModule(IContext context) : base(context)
@@ -176,7 +178,7 @@ namespace SmartXCore.Module
                 else
                 {
                     var error = json["BaseResponse"]["ErrMsg"].ToString();
-                    _context.FireNotifyAsync(NotifyEvent.CreateEvent(NotifyEventType.Error, "微信初始化失败:" + error));
+                    _context.FireNotifyAsync(NotifyEvent.CreateEvent(NotifyEventType.Error, "微信初始化失败"));
                     return false;
                 }
 
@@ -211,7 +213,7 @@ namespace SmartXCore.Module
                 else
                 {
                     var error = json["BaseResponse"]["ErrMsg"].ToString();
-                    _context.FireNotifyAsync(NotifyEvent.CreateEvent(NotifyEventType.Error, "开启状态通知失败:" + error));
+                    _context.FireNotifyAsync(NotifyEvent.CreateEvent(NotifyEventType.Error, "开启状态通知失败"));
                 }
 
             }
@@ -236,49 +238,15 @@ namespace SmartXCore.Module
                 var selfName = _session.UserToken["UserName"].ToString();
                 _session.User = _store.ContactMemberDic[selfName];
                 // Store.ContactMemberDic.Remove(selfName)
-
-                return true;
-            }
-            else
-            {
-                _context.FireNotifyAsync(NotifyEvent.CreateEvent(NotifyEventType.Error, "获取联系人失败:" + response.RawText()));
-                return false;
-            }
-        }
-
-        /// <summary>
-        /// 获取群信息
-        /// </summary>
-        public bool BatchGetContact()
-        {
-            var url = string.Format(ApiUrls.BatchGetContact, _session.BaseUrl, _session.PassTicket, _timestamp);
-            var obj = new
-            {
-                _session.BaseRequest,
-                Count = _store.GroupCount,
-                List = _store.Groups.Select(m => new { m.UserName, EncryChatRoomId = "" })
-            };
-            var response = _httpClient.PostJsonAsync(url, obj.ToJson()).Result;
-            var json = response.RawText().ToJToken();
-            if (json["BaseResponse"]["Ret"].ToString() == "0")
-            {
-                var list = json["ContactList"].ToObject<List<ContactMember>>();
-                foreach (var item in list)
-                {
-                    _store.ContactMemberDic[item.UserName] = item;
-                }
-
                 _context.FireNotifyAsync(NotifyEvent.CreateEvent(NotifyEventType.LoginSuccess));
                 return true;
             }
             else
             {
-                _context.FireNotifyAsync(NotifyEvent.CreateEvent(NotifyEventType.Error, "获取群信息失败:" + response.RawText()));
+                _context.FireNotifyAsync(NotifyEvent.CreateEvent(NotifyEventType.Error, "获取联系人失败"));
                 return false;
             }
         }
-
-
 
         public bool Login()
         {
@@ -348,6 +316,8 @@ namespace SmartXCore.Module
                     {
                         if (_hostIndex < ApiUrls.SyncHosts.Length - 1)
                             _hostIndex++;
+                        else
+                            _hostIndex = 0;
                         return false;
                     }
                     else

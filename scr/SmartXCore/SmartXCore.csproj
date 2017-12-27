@@ -55,7 +55,6 @@
   <ItemGroup>
     <Compile Include="Core\ApiUrls.cs" />
     <Compile Include="Core\IChatModule.cs" />
-    <Compile Include="Core\IClient.cs" />
     <Compile Include="Core\IContactModule.cs" />
     <Compile Include="Core\IContext.cs" />
     <Compile Include="Core\ILoginModule.cs" />
@@ -77,11 +76,14 @@
     <Compile Include="Model\ContactMember.cs" />
     <Compile Include="Model\GroupMember.cs" />
     <Compile Include="Model\Message.cs" />
+    <Compile Include="Model\MessageSent.cs" />
     <Compile Include="Model\MessageType.cs" />
     <Compile Include="Model\RecommendInfo.cs" />
     <Compile Include="Model\SyncCheckResult.cs" />
     <Compile Include="Model\WatiForLoginResult.cs" />
     <Compile Include="Module\BaseModule.cs" />
+    <Compile Include="Module\ChatModule.cs" />
+    <Compile Include="Module\ContactModule.cs" />
     <Compile Include="Module\LoginModule.cs" />
     <Compile Include="Module\SessionModule.cs" />
     <Compile Include="Module\StoreModule.cs" />

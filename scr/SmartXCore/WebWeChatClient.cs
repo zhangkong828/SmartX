@@ -28,14 +28,14 @@ namespace SmartXCore
         public WebWeChatClient(NotifyEventListener notifyListener)
             : this()
         {
-            //注册上下文
-            _builder.RegisterType<WebWeChatClient>().As<IContext>().SingleInstance();
             //注册日志
             _builder.RegisterType<Log4NetLogger>().As<ILogger>().SingleInstance();
             //注册模块
-            _builder.RegisterType<SessionModule>().SingleInstance();
-            _builder.RegisterType<StoreModule>().SingleInstance();
-            _builder.RegisterType<LoginModule>().As<ILoginModule>().SingleInstance();
+            _builder.RegisterInstance(new SessionModule());
+            _builder.RegisterInstance(new StoreModule());
+            _builder.Register<ILoginModule>(x => new LoginModule(this)).SingleInstance();
+            _builder.Register<IContactModule>(x => new ContactModule(this)).SingleInstance();
+            _builder.Register<IChatModule>(x => new ChatModule(this)).SingleInstance();
             //注册事件
             _builder.RegisterInstance(notifyListener);
 
