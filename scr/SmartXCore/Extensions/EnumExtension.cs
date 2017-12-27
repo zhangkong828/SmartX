@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace SmartXCore.Extensions
 {
-  public static  class EnumExtension
+    public static class EnumExtension
     {
         private static readonly ConcurrentDictionary<Enum, string> EnumDic = new ConcurrentDictionary<Enum, string>();
         private static readonly ConcurrentDictionary<Type, string> TypeDic = new ConcurrentDictionary<Type, string>();
@@ -60,5 +60,9 @@ namespace SmartXCore.Extensions
         {
             return Enum.GetValues(typeof(T)).Cast<T>();
         }
+
+
+
+
     }
 }

@@ -34,6 +34,7 @@ namespace SmartXCore
             _builder.RegisterType<Log4NetLogger>().As<ILogger>().SingleInstance();
             //注册模块
             _builder.RegisterType<SessionModule>().SingleInstance();
+            _builder.RegisterType<StoreModule>().SingleInstance();
             _builder.RegisterType<LoginModule>().As<ILoginModule>().SingleInstance();
             //注册事件
             _builder.RegisterInstance(notifyListener);

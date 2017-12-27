@@ -21,10 +21,40 @@ namespace SmartXCore.Event
         QRCodeInvalid,
 
         /// <summary>
-        /// 二维码验证成功
+        /// 二维码扫描成功
         /// </summary>
-        [Description("二维码验证成功")]
+        [Description("二维码扫描成功")]
+        QRCodeScanCode,
+
+        /// <summary>
+        /// 二维码确认登录
+        /// </summary>
+        [Description("二维码确认登录")]
         QRCodeSuccess,
+
+        /// <summary>
+        /// 登录成功
+        /// </summary>
+        [Description("登录成功")]
+        LoginSuccess,
+        
+        /// <summary>
+        /// 重新登录成功
+        /// </summary>
+        [Description("重新登录成功")]
+        ReloginSuccess,
+
+        /// <summary>
+        /// 消息
+        /// </summary>
+        [Description("消息")]
+        Message,
+
+        /// <summary>
+        /// 红包
+        /// </summary>
+        [Description("红包")]
+        RedEnvelope,
 
         /// <summary>
         /// 错误
@@ -37,23 +67,5 @@ namespace SmartXCore.Event
         /// </summary>
         [Description("离线")]
         Offline,
-
-        /// <summary>
-        /// 登录成功
-        /// </summary>
-        [Description("登录成功")]
-        LoginSuccess,
-
-        /// <summary>
-        /// 重新登录成功
-        /// </summary>
-        [Description("重新登录成功")]
-        ReloginSuccess,
-
-        /// <summary>
-        /// 消息
-        /// </summary>
-        [Description("消息")]
-        Message,
     }
 }

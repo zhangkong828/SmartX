@@ -24,6 +24,7 @@ namespace SmartXCore.Core
 
         public static readonly string[] SyncHosts =
         {
+            "webpush.weixin.qq.com",
             "webpush.wx.qq.com",
             "webpush.wx2.qq.com",
             "webpush.wx8.qq.com",

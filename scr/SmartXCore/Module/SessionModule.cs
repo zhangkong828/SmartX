@@ -62,25 +62,25 @@ namespace SmartXCore.Module
 
         public string Sid
         {
-            get { return Request.GetOrDefault(nameof(Sid)); }
-            set { Request[nameof(Sid)] = value; }
+            get { return BaseRequest.GetOrDefault(nameof(Sid)); }
+            set { BaseRequest[nameof(Sid)] = value; }
         }
 
         public string Uin
         {
-            get { return Request.GetOrDefault(nameof(Uin)); }
-            set { Request[nameof(Uin)] = value; }
+            get { return BaseRequest.GetOrDefault(nameof(Uin)); }
+            set { BaseRequest[nameof(Uin)] = value; }
         }
 
         public string Skey
         {
-            get { return Request.GetOrDefault(nameof(Skey)); }
-            set { Request[nameof(Skey)] = value; }
+            get { return BaseRequest.GetOrDefault(nameof(Skey)); }
+            set { BaseRequest[nameof(Skey)] = value; }
         }
 
-        public string DeviceId => Request.GetOrDefault(nameof(DeviceId));
+        public string DeviceId => BaseRequest.GetOrDefault(nameof(DeviceId));
 
-        public IDictionary<string, string> Request
+        public IDictionary<string, string> BaseRequest
         {
             get
             {
@@ -94,9 +94,15 @@ namespace SmartXCore.Module
 
     public enum SessionState
     {
+        /// <summary>
+        /// 离线
+        /// </summary>
         [Description("离线")]
         Offline,
 
+        /// <summary>
+        /// 在线
+        /// </summary>
         [Description("在线")]
         Online,
     }

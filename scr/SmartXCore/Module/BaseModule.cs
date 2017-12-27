@@ -29,6 +29,7 @@ namespace SmartXCore.Module
         protected ILogger _logger => _context.Logger;
 
         protected SessionModule _session => _context.GetModule<SessionModule>();
+        protected StoreModule _store => _context.GetModule<StoreModule>();
 
         protected long _timestamp => DateTime.Now.ToTimestampMilli();
 
