@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartXCore", "SmartXCore\Sm
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleConsoleClient", "SimpleClient\SimpleConsoleClient\SimpleConsoleClient.csproj", "{C7E8D100-BE5D-4F3E-A968-F46170757B89}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleNotificationClient", "SimpleClient\SimpleNotificationClient\SimpleNotificationClient.csproj", "{4FBE27ED-22FC-4F26-BF6E-211AD40FC0FD}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,17 +23,12 @@ Global
 		{C7E8D100-BE5D-4F3E-A968-F46170757B89}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7E8D100-BE5D-4F3E-A968-F46170757B89}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C7E8D100-BE5D-4F3E-A968-F46170757B89}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4FBE27ED-22FC-4F26-BF6E-211AD40FC0FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4FBE27ED-22FC-4F26-BF6E-211AD40FC0FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4FBE27ED-22FC-4F26-BF6E-211AD40FC0FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4FBE27ED-22FC-4F26-BF6E-211AD40FC0FD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C7E8D100-BE5D-4F3E-A968-F46170757B89} = {338F5F52-78CB-4157-B97A-2620FDF49C09}
-		{4FBE27ED-22FC-4F26-BF6E-211AD40FC0FD} = {338F5F52-78CB-4157-B97A-2620FDF49C09}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6F2EC9CA-2C85-4FA6-8E4D-249377E734E8}

@@ -37,12 +37,24 @@ namespace SmartXCore.Event
         /// </summary>
         [Description("登录成功")]
         LoginSuccess,
-        
+
         /// <summary>
-        /// 重新登录成功
+        /// 开启同步检测
         /// </summary>
-        [Description("重新登录成功")]
-        ReloginSuccess,
+        [Description("开启同步检测")]
+        BeginSyncCheck,
+
+        /// <summary>
+        /// 同步检测成功
+        /// </summary>
+        [Description("同步检测成功")]
+        SyncCheckSuccess,
+
+        /// <summary>
+        /// 同步检测失败
+        /// </summary>
+        [Description("同步检测失败")]
+        SyncCheckError,
 
         /// <summary>
         /// 消息

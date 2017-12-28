@@ -61,10 +61,23 @@ namespace SimpleConsoleClient
                     break;
 
                 case NotifyEventType.LoginSuccess:
-                    ColorConsole(ConsoleColor.Gray, "登录成功");
                     var store = client.GetModule<StoreModule>();
                     ColorConsole(ConsoleColor.Gray, $"获取好友列表成功，共{store.FriendCount}个");
                     ColorConsole(ConsoleColor.Gray, $"获取公众号|服务号列表成功，共{store.PublicUserCount}个");
+                    break;
+
+                case NotifyEventType.BeginSyncCheck:
+                    ColorConsole(ConsoleColor.Gray, "开启同步检测...{0}", notifyEvent.Target as string);
+                    break;
+
+                case NotifyEventType.SyncCheckSuccess:
+                    ColorConsole(ConsoleColor.Gray, "同步检测成功");
+                    ColorConsole(ConsoleColor.Gray, "开始循环监听消息...");
+                    break;
+
+                case NotifyEventType.SyncCheckError:
+                    ColorConsole(ConsoleColor.Red, "同步检测失败");
+                    ColorConsole(ConsoleColor.Magenta, "请重新登录");
                     break;
 
                 case NotifyEventType.Message:

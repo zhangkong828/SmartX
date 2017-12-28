@@ -8,7 +8,7 @@ namespace SmartXCore.Model
 {
     public class GroupMember
     {
-        public int Uin { get; set; }
+        public long Uin { get; set; }
 
         /// <summary>
         ///  用户名称，一个"@"为好友，两个"@"为群组

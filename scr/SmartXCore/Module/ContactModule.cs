@@ -29,9 +29,6 @@ namespace SmartXCore.Module
                 var list = json["MemberList"].ToObject<ContactMember[]>();
                 _store.ContactMemberDic.ReplaceBy(list, m => m.UserName);
 
-                var selfName = _session.UserToken["UserName"].ToString();
-                _session.User = _store.ContactMemberDic[selfName];
-
                 return true;
             }
             else

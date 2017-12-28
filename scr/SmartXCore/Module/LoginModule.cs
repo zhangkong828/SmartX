@@ -173,6 +173,7 @@ namespace SmartXCore.Module
                 {
                     _session.SyncKey = json["SyncKey"];
                     _session.UserToken = json["User"];
+                    _session.User = json["User"].ToObject<ContactMember>();
                     return true;
                 }
                 else
@@ -234,10 +235,7 @@ namespace SmartXCore.Module
                 _store.MemberCount = json["MemberCount"].ToObject<int>();
                 var list = json["MemberList"].ToObject<ContactMember[]>();
                 _store.ContactMemberDic.ReplaceBy(list, m => m.UserName);
-
-                var selfName = _session.UserToken["UserName"].ToString();
-                _session.User = _store.ContactMemberDic[selfName];
-                // Store.ContactMemberDic.Remove(selfName)
+                
                 _context.FireNotifyAsync(NotifyEvent.CreateEvent(NotifyEventType.LoginSuccess));
                 return true;
             }
@@ -273,7 +271,16 @@ namespace SmartXCore.Module
         {
             while (true)
             {
-                if (SyncCheck())
+                var syncCheckResult = false;
+                try
+                {
+                    syncCheckResult = SyncCheck();
+                }
+                catch (Exception)
+                {
+                    break;
+                }
+                if (syncCheckResult)
                     WebwxSync();
                 Thread.Sleep(200);
             }
@@ -293,7 +300,9 @@ namespace SmartXCore.Module
             {
                 var host = ApiUrls.SyncHosts[_hostIndex];
                 url = $"https://{host}/cgi-bin/mmwebwx-bin/synccheck";
+                _context.FireNotifyAsync(NotifyEvent.CreateEvent(NotifyEventType.BeginSyncCheck, host));
             }
+
             //此处需要将key都变成小写
             var param = _session.BaseRequest.ToDictionary(pair => pair.Key.ToLower(), pair => pair.Value).ToQueryString();
             param += "&synckey=" + _session.SyncKeyStr;
@@ -314,14 +323,21 @@ namespace SmartXCore.Module
                 {
                     if (retcode != "0")
                     {
+                        //切换host
                         if (_hostIndex < ApiUrls.SyncHosts.Length - 1)
+                        {
                             _hostIndex++;
+                            return false;
+                        }
                         else
-                            _hostIndex = 0;
-                        return false;
+                        {
+                            _context.FireNotifyAsync(NotifyEvent.CreateEvent(NotifyEventType.SyncCheckError));
+                            throw new Exception();
+                        }
                     }
                     else
                     {
+                        _context.FireNotifyAsync(NotifyEvent.CreateEvent(NotifyEventType.SyncCheckSuccess));
                         _session.SyncUrl = url.Split('?')[0];
                         return false;
                     }
@@ -331,7 +347,7 @@ namespace SmartXCore.Module
                 {
                     _session.State = SessionState.Offline;
                     _context.FireNotifyAsync(NotifyEvent.CreateEvent(NotifyEventType.Offline));
-                    return false;
+                    throw new Exception();
                 }
                 else
                 {
@@ -351,7 +367,7 @@ namespace SmartXCore.Module
                 }
 
             }
-            return false;
+            throw new Exception();
         }
 
         /// <summary>
