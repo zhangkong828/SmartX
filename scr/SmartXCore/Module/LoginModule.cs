@@ -367,6 +367,7 @@ namespace SmartXCore.Module
                 }
 
             }
+            _context.FireNotifyAsync(NotifyEvent.CreateEvent(NotifyEventType.SyncCheckError));
             throw new Exception();
         }
 
