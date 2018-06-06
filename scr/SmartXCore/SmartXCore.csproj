@@ -69,6 +69,7 @@
     <Compile Include="Extensions\JsonExtension.cs" />
     <Compile Include="Extensions\UtilExtension.cs" />
     <Compile Include="Extensions\StringExtension.cs" />
+    <Compile Include="Logging\EmptyLogger.cs" />
     <Compile Include="Logging\ILogger.cs" />
     <Compile Include="Logging\Log4NetLogger.cs" />
     <Compile Include="Logging\LoggerFactory.cs" />

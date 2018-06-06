@@ -20,19 +20,21 @@ namespace SmartXCore
         private readonly NotifyEventListener _notifyListener;
         private readonly ILogger _logger;
 
-        public static WebWeChatClient Build(NotifyEventListener notifyListener)
+        public static WebWeChatClient Build(NotifyEventListener notifyListener, ILogger logger = null)
         {
-            return new WebWeChatClient(notifyListener);
+            if (logger == null)
+                logger = new EmptyLogger();
+            return new WebWeChatClient(notifyListener, logger);
         }
 
-        public WebWeChatClient(NotifyEventListener notifyListener)
+        private WebWeChatClient(NotifyEventListener notifyListener, ILogger logger)
             : this()
         {
             //注册日志
-            _builder.RegisterType<Log4NetLogger>().As<ILogger>().SingleInstance();
+            _builder.RegisterInstance(logger).As<ILogger>().SingleInstance();
             //注册模块
-            _builder.RegisterInstance(new SessionModule());
-            _builder.RegisterInstance(new StoreModule());
+            _builder.RegisterInstance(new SessionModule()).SingleInstance();
+            _builder.RegisterInstance(new StoreModule()).SingleInstance();
             _builder.Register<ILoginModule>(x => new LoginModule(this)).SingleInstance();
             _builder.Register<IContactModule>(x => new ContactModule(this)).SingleInstance();
             _builder.Register<IChatModule>(x => new ChatModule(this)).SingleInstance();
@@ -73,9 +75,10 @@ namespace SmartXCore
                 _logger.Error("FireNotify Error", ex);
             }
         }
+
         public void Dispose()
         {
-
+            //
         }
 
 
@@ -88,6 +91,9 @@ namespace SmartXCore
             }
         }
 
-
+        public void Stop()
+        {
+            GetModule<ILoginModule>().Logout();
+        }
     }
 }

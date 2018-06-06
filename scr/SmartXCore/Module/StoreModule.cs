@@ -16,12 +16,16 @@ namespace SmartXCore.Module
         {
         }
 
+        /// <summary>
+        /// 最近联系人
+        /// </summary>
+        public IEnumerable<ContactMember> LatestContactMember { get; set; } = new List<ContactMember>();
 
         /// <summary>
         /// 联系人总数
         /// </summary>
         public int MemberCount { get; set; }
- 
+
         /// <summary>
         /// 存放联系人
         /// 主键是member的username

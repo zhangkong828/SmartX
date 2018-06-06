@@ -55,7 +55,7 @@ namespace SmartXCore.Core
         /// </summary>
         void WebwxSync();
 
-
+        void Logout();
 
     }
 }

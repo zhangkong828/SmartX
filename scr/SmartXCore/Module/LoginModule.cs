@@ -22,6 +22,8 @@ namespace SmartXCore.Module
         {
         }
 
+        private bool _isWork = false;
+
         /// <summary>
         /// 获取UUID
         /// </summary>
@@ -174,6 +176,15 @@ namespace SmartXCore.Module
                     _session.SyncKey = json["SyncKey"];
                     _session.UserToken = json["User"];
                     _session.User = json["User"].ToObject<ContactMember>();
+
+                    //获取最近联系人
+                    try
+                    {
+                        int count = json["Count"].ToObject<int>();
+                        if (count > 0)
+                            _store.LatestContactMember = json["ContactList"].ToObject<ContactMember[]>();
+                    }
+                    catch { }
                     return true;
                 }
                 else
@@ -235,7 +246,7 @@ namespace SmartXCore.Module
                 _store.MemberCount = json["MemberCount"].ToObject<int>();
                 var list = json["MemberList"].ToObject<ContactMember[]>();
                 _store.ContactMemberDic.ReplaceBy(list, m => m.UserName);
-                
+
                 _context.FireNotifyAsync(NotifyEvent.CreateEvent(NotifyEventType.LoginSuccess));
                 return true;
             }
@@ -248,6 +259,7 @@ namespace SmartXCore.Module
 
         public bool Login()
         {
+            _isWork = true;
             if (GetUuid() && GetQRCode())
             {
                 //等待扫码登录
@@ -266,10 +278,14 @@ namespace SmartXCore.Module
             return false;
         }
 
+        public void Logout()
+        {
+            _isWork = false;
+        }
 
         public void BeginSyncCheck()
         {
-            while (true)
+            while (_isWork)
             {
                 var syncCheckResult = false;
                 try
@@ -329,11 +345,11 @@ namespace SmartXCore.Module
                             _hostIndex++;
                             return false;
                         }
-                        else
-                        {
-                            _context.FireNotifyAsync(NotifyEvent.CreateEvent(NotifyEventType.SyncCheckError));
-                            throw new Exception();
-                        }
+                        //else
+                        //{
+                        //    _context.FireNotifyAsync(NotifyEvent.CreateEvent(NotifyEventType.SyncCheckError));
+                        //    throw new Exception();
+                        //}
                     }
                     else
                     {
