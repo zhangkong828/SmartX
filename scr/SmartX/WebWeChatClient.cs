@@ -1,16 +1,14 @@
-﻿using System;
+﻿using Autofac;
+using SmartX.Core;
+using SmartX.Event;
+using SmartX.Logging;
+using SmartX.Module;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SmartXCore.Core;
-using SmartXCore.Event;
-using SmartXCore.Logging;
-using SmartXCore.Module;
-using Autofac;
-using Autofac.Core;
 
-namespace SmartXCore
+namespace SmartX
 {
     public class WebWeChatClient : IContext
     {

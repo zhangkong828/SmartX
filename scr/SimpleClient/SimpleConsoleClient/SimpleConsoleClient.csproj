@@ -55,9 +55,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\SmartXCore\SmartXCore.csproj">
-      <Project>{df013fba-a2e7-4cc4-b2fb-1ed5f3db88dd}</Project>
-      <Name>SmartXCore</Name>
+    <ProjectReference Include="..\..\SmartX\SmartX.csproj">
+      <Project>{eeeeaad6-e549-411e-9e32-e6ad808ec366}</Project>
+      <Name>SmartX</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

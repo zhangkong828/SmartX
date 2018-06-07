@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SmartXCore.Core;
+using SmartX.Core;
 using System.Text.RegularExpressions;
-using SmartXCore.Extensions;
-using SmartXCore.Event;
-using SmartXCore.Model;
+using SmartX.Extensions;
+using SmartX.Event;
+using SmartX.Model;
 using System.Threading;
 using System.Xml.Linq;
 using Newtonsoft.Json.Linq;
 using System.ComponentModel;
 
-namespace SmartXCore.Module
+namespace SmartX.Module
 {
     [Description("登录模块")]
     public class LoginModule : BaseModule, ILoginModule
