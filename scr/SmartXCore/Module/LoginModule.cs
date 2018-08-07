@@ -148,7 +148,6 @@ namespace SmartXCore.Module
                 _session.PassTicket = root.Element("pass_ticket").Value;
 
                 _session.State = SessionState.Online;
-                Console.WriteLine("WebLogin:true");
                 return true;
 
             }

@@ -15,7 +15,7 @@ namespace SmartX.Extensions
     {
         #region Get
 
-        public static async Task<HttpResponseMessage> GetAsync(this HttpClient client, string url, string referer = null, int timeout = 20)
+        public static async Task<HttpResponseMessage> GetAsync(this HttpClient client, string url, string referer = null, int timeout = 40)
         {
             var clientRreferer = client.DefaultRequestHeaders.Referrer;
 
@@ -32,7 +32,7 @@ namespace SmartX.Extensions
         }
 
 
-        public static async Task<string> GetStringAsync(this HttpClient client, string url, string referer = null, int timeout = 20)
+        public static async Task<string> GetStringAsync(this HttpClient client, string url, string referer = null, int timeout = 40)
         {
             var clientRreferer = client.DefaultRequestHeaders.Referrer;
 
@@ -49,7 +49,7 @@ namespace SmartX.Extensions
         }
 
 
-        public static async Task<Stream> GetStreamAsync(this HttpClient client, string url, string referer = null, int timeout = 20)
+        public static async Task<Stream> GetStreamAsync(this HttpClient client, string url, string referer = null, int timeout = 40)
         {
             var clientRreferer = client.DefaultRequestHeaders.Referrer;
 
@@ -71,7 +71,7 @@ namespace SmartX.Extensions
 
         #region Post
 
-        public static async Task<HttpResponseMessage> PostAsync(this HttpClient client, string url, string postData, string referer = null, int timeout = 20)
+        public static async Task<HttpResponseMessage> PostAsync(this HttpClient client, string url, string postData, string referer = null, int timeout = 40)
         {
             try
             {
@@ -125,7 +125,7 @@ namespace SmartX.Extensions
             }
         }
 
-        public static async Task<HttpResponseMessage> PostJsonAsync(this HttpClient client, string url, string json, string referer = null, int timeout = 20)
+        public static async Task<HttpResponseMessage> PostJsonAsync(this HttpClient client, string url, string json, string referer = null, int timeout = 40)
         {
             try
             {
@@ -178,7 +178,7 @@ namespace SmartX.Extensions
             }
         }
 
-        public static async Task<HttpResponseMessage> PostWithRetry(this HttpClient client, string url, string postData, int retryTimes = 3, string referer = null, int timeout = 20)
+        public static async Task<HttpResponseMessage> PostWithRetry(this HttpClient client, string url, string postData, int retryTimes = 3, string referer = null, int timeout = 40)
         {
             Task<HttpResponseMessage> response;
             do
@@ -191,7 +191,7 @@ namespace SmartX.Extensions
             return await response;
         }
 
-        public static async Task<HttpResponseMessage> PostJsonWithRetry(this HttpClient client, string url, string json, int retryTimes = 3, string referer = null, int timeout = 20)
+        public static async Task<HttpResponseMessage> PostJsonWithRetry(this HttpClient client, string url, string json, int retryTimes = 3, string referer = null, int timeout = 40)
         {
             Task<HttpResponseMessage> response;
             do

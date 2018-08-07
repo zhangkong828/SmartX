@@ -1,9 +1,9 @@
-﻿using SmartX;
-using SmartX.Core;
-using SmartX.Event;
-using SmartX.Extensions;
-using SmartX.Model;
-using SmartX.Module;
+﻿using SmartXCore;
+using SmartXCore.Core;
+using SmartXCore.Event;
+using SmartXCore.Extensions;
+using SmartXCore.Model;
+using SmartXCore.Module;
 using System;
 using System.Drawing;
 using System.IO;
